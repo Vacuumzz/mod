@@ -15,7 +15,7 @@ class GetUsersMod(loader.Module):
         counter = 0
         users = await message.client.get_participants(CHATID)
         with open(f'users_{str(CHATID).strip("-")}.xlsx', 'w', encoding="utf-8") as exelfile:
-            writer = ExelWriter(xlsxfile)
+            writer = XlsxWriter(xlsxfile)
             for user in users:
                 if user.bot or user.deleted:
                     continue
