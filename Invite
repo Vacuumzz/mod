@@ -5,9 +5,9 @@ def register(cb):
     cb(AutoInvite())
 
 
-class TagallMod(loader.Module):
+class AutoInvite(loader.Module):
     """Perm AutoInvite"""
-    strings = {'name': 'привет'}
+    strings = {'name': 'hi'}
 
     async def invitecmd(self, event):
         """Модуль для автоинвайта в чатах"""
