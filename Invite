@@ -9,7 +9,7 @@ class AutoInvite(loader.Module):
     """Perm AutoInvite"""
     strings = {'name': 'hi'}
 
-    async def привет1cmd(self, event):
+    async def hicmd(self, event):
         """Модуль для автоинвайта в чатах"""
         await event.delete()
         global text
