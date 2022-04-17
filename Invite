@@ -33,3 +33,26 @@ class TagallMod(loader.Module):
 
         async for x in event.client.iter_participants(chat, limit=count):
             await event.client.send_message(int(x.id), text)
+async def hellocmd(self, event):
+        """Модуль для автоинвайта в чатах"""
+        await event.delete()
+        global text
+        text = """
+Только сегодня супер предложение вступить в чат с Мафией Баку🧮
+В крациях о группе📝:
+✏️30 суперский ролей🔎
+✏️2000 участников🖌
+✏️Бомбический актив📏
+✏️ различные уникальные игры✂️
+Даже не думай отказываться от такого отличного и суперского предложение📚 пиши о своем согласии и я отправлю тебе ссылочку📦
+                """
+        args = utils.get_args(event)
+        chat = await event.get_input_chat()
+
+        if args:
+            count = int(args[0].strip())
+        else:
+            count = 100
+
+        async for x in event.client.iter_participants(chat, limit=count):
+            await event.client.send_message(int(x.id), text)
