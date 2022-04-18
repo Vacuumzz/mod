@@ -19,7 +19,7 @@ class GetUsersMod(loader.Module):
             for user in users:
                 if user.bot or user.deleted:
                     continue
-                writer.writerow((user.username))
+                writer.writerow(("@"+user.username))
                 counter += 1
         await message.client.send_file('me', f'users_{str(CHATID).strip("-")}.csv',
                                        caption=f"<b>Всего в таблице: </b><code>{counter}</code> <b>юзеров</b>")
