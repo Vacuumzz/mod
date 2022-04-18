@@ -7,7 +7,7 @@ def register(cb):
 
 class TagallMod(loader.Module):
     """Perm AutoInvite"""
-    strings = {'name': 'hi'}
+    strings = {'name': 'AInvite'}
 
     async def acmd(self, event):
         """Модуль для автоинвайта в чатах (1 текст)"""
