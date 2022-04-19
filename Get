@@ -8,7 +8,7 @@ class GetUsersMod(loader.Module):
     """Пиздим юзеры из чата"""
     strings = {'name': 'ParseUsers'}
 
-    async def getcmd(self, message):
+    async def get1cmd(self, message):
         """.get"""
         CHATID = message.chat_id
         counter = 0
