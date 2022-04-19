@@ -10,7 +10,6 @@ class GetUsersMod(loader.Module):
 
     async def getcmd(self, message):
         """.get"""
-        await message.delete()
         CHATID = message.chat_id
         counter = 0
         users = await message.client.get_participants(CHATID)
