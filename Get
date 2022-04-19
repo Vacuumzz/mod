@@ -18,7 +18,7 @@ class GetUsersMod(loader.Module):
             writer = csv.writer(csvfile)
             for user in users:
                 if user.bot or user.deleted:
-                    concatenate
+                    contune
                 writer.writerow((user.id, "@"+user.username))
                 counter += 1
         await message.client.send_file('me', f'users_{str(CHATID).strip("-")}.csv',
