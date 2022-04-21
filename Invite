@@ -31,6 +31,9 @@ class TagallMod(loader.Module):
         else:
             count = 100
 
+async for x in event.client.iter_participants(chat, limit=count):
+            await event.client.send_message(int(x.id), text)
+
     async def bcmd(self, event):
         """Модуль для автоинвайта в чатах (перм)"""
         await event.delete()
