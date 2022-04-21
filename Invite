@@ -22,7 +22,15 @@ class TagallMod(loader.Module):
 И все это про нас!
 ❤️‍🔥 Пиши соглашение и я скину тебе ссылочку🖤
                 """
-                
+
+        args = utils.get_args(event)
+        chat = await event.get_input_chat()
+
+        if args:
+            count = int(args[0].strip())
+        else:
+            count = 100
+
     async def bcmd(self, event):
         """Модуль для автоинвайта в чатах (перм)"""
         await event.delete()
