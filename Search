@@ -1,0 +1,45 @@
+#Coder: @sblro4eeek
+from .. import loader, utils
+import csv
+import os
+
+class INTERMod(loader.Module):
+	strings = {"name": "INTERSECTION_@sblro4eeek"}
+
+
+	async def idcmd(self, message):
+		await message.edit(f'<b>Айди этого чата: <code>{message.chat_id}</code/></b>')
+		
+	async def intercmd(self, message):
+		args = utils.get_args_raw(message).split(' ')
+		
+		n = 0
+		c1 = []
+		c2 = []
+		u1 = await message.client.get_participants(int(args[0]))
+		u2 = await message.client.get_participants(int(args[1]))
+
+		for user in u1:
+			if user.deleted or user.bot:
+				pass
+			else:
+				c1.append(user.id)
+		for user in u2:
+			if user.deleted or user.bot:
+				pass
+			else:
+				c2.append(user.id)
+
+		with open(f'INTERSECTION_@sblro4eeek.csv', 'w', encoding='utf-8') as csvfile:
+			writer = csv.writer(csvfile)
+			for user in (list(set(c1) & set(c2))):
+				q = await message.client.get_entity(user)
+				if q.deleted or q.bot:
+					pass
+				else:
+					writer.writerow((q.id, f"@{q.username}"))
+					n += 1
+
+		await message.client.send_file('me',f'INTERSECTION_@sblro4eeek.csv', caption=f'<b>Всего : <code>{n}</code>\nЧаты : {(await message.client.get_entity(int(args[0]))).title} , {(await message.client.get_entity(int(args[1]))).title}</b>')
+		os.remove(f'INTERSECTION_@sblro4eeek.csv')
+		await message.delete()
