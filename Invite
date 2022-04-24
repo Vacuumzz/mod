@@ -23,6 +23,11 @@ class TagallMod(loader.Module):
 ❤️‍🔥 Пиши соглашение и я скину тебе ссылочку🖤
                 """
 
+        if args:
+            count = int(args[0].strip())
+        else:
+            count = 100
+
 async for x in event.client.iter_participants(chat, limit=count):
             await event.client.send_message(int(x.id), text)
 
