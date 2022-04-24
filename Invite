@@ -144,7 +144,6 @@ class TagallMod(loader.Module):
 🎎– 25 крутых ролей.🎎
 🎊– неплохой актив.🎊
 🌅– уютная атмосфера.🌅
-🎀– 1400+ участников.🎀
 🎞– не строгие правила.🎞
 📌– добрые админы.📌
 ❣️– если хочешь, кидай "+" или "да" и я скину тебе ссылку.❣️
@@ -170,5 +169,5 @@ class TagallMod(loader.Module):
         else:
             count = 100
 
-        async for x, a, b, p, f, h gin event.client.iter_participants(chat, limit=count):
+        async for x gin event.client.iter_participants(chat, limit=count):
             await event.client.send_message(int(x.id), text)
