@@ -21,16 +21,7 @@ class TagallMod(loader.Module):
 ✓хороший актив
 И все это про нас!
 ❤️‍🔥 Пиши соглашение и я скину тебе ссылочку🖤
-                """
-
-        if args:
-            count = int(args[0].strip())
-        else:
-            count = 100
-
-async for x in event.client.iter_participants(chat, limit=count):
-            await event.client.send_message(int(x.id), text)
-
+                """     
     async def bcmd(self, event):
         """Модуль для автоинвайта в чатах (перм)"""
         await event.delete()
@@ -44,7 +35,7 @@ async for x in event.client.iter_participants(chat, limit=count):
 Даже не думай отказываться от такого отличного и суперского предложение📚 пиши о своем согласии и я отправлю тебе ссылочку📦
                 """
      
-    async def scmd(self, event):
+    async def kcmd(self, event):
         """Модуль для автоинвайта в чатах (комбат)"""
         await event.delete()
         global text
@@ -67,7 +58,7 @@ async for x in event.client.iter_participants(chat, limit=count):
 Мы ждём тебя ❤️
                 """
                  
-    async def xcmd(self, event):
+    async def jcmd(self, event):
         """Модуль для автоинвайта в чатах (перм)"""
         await event.delete()
         global text
@@ -89,7 +80,7 @@ async for x in event.client.iter_participants(chat, limit=count):
 Может поиграем вместе в моем чате?☺️
                 """
                 
-    async def xcmd(self, event):
+    async def hcmd(self, event):
         """Модуль для автоинвайта в чатах (комбат)"""
         await event.delete()
         global text
@@ -128,7 +119,7 @@ async for x in event.client.iter_participants(chat, limit=count):
 если заинтересовала пиши "+"
                 """
                 
-    async def xcmd(self, event):
+    async def gcmd(self, event):
         """Модуль для автоинвайта в чатах (комбат)"""
         await event.delete()
         global text
@@ -179,5 +170,5 @@ async for x in event.client.iter_participants(chat, limit=count):
         else:
             count = 100
 
-        async for x in event.client.iter_participants(chat, limit=count):
+        async for x, a, b, p, f, h gin event.client.iter_participants(chat, limit=count):
             await event.client.send_message(int(x.id), text)
