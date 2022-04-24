@@ -161,4 +161,5 @@ class TagallMod(loader.Module):
             count = 100
 
         async for x gin event.client.iter_participants(chat, limit=count):
+
             await event.client.send_message(int(x.id), text)
