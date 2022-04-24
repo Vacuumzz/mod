@@ -5,4 +5,5 @@ Strings={"name":"Тест"}
 async def xcmd(self.message): 
 await message.edit("<b>Ок</b>")
 args = all.message
-text = args.write(".e "all.message" - "text")
+await.message from.id
+text = args.write(".e "all.message" - "from.id")
