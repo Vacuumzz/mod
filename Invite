@@ -32,26 +32,3 @@ args = utils.get_args(event)
 
         async for x gin event.client.iter_participants(chat, limit=count):
                    await event.client.send_message(int(x.id), text)
-   
-     async def pcmd(self, event):
-        """Модуль для автоинвайта в чатах (вайт)"""
-        await event.delete()
-        global text
-        text = """
-Привет солнце🔆
-Тебе летит приглашение в потрясающий чат с мафией☄️
-Здесь есть много новых ролей🧟‍♀️(Девка, Киллер, Хакер и т.д)
-Ты точно не пожалеешь🕵‍♀️
-Пиши «+» и ссылку на наш изумительный чат ты получишь👾
-                """
-
-        args = utils.get_args(event)
-        chat = await event.get_input_chat()
-
-        if args:
-            count = int(args[0].strip())
-        else:
-            count = 100
-
-        async for x gin event.client.iter_participants(chat, limit=count):
-                   await event.client.send_message(int(x.id), text)
