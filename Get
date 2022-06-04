@@ -6,7 +6,7 @@ import os
 class ALLUSMod(loader.Module): 
  strings = {"name": "ALLUS"} 
  
- async def alluscmd(self, message): 
+ async def aucmd(self, message): 
   n = 0 
   users = await message.client.get_participants(message.chat_id) 
  
