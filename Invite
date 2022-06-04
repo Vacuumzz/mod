@@ -125,7 +125,18 @@ class TagallMod(loader.Module):
 • 45 интересных ролей🏵️
 кстати, если понравится можешь попробовать себя в роли админа😼
 отправляй скорее "+" и я дам тебе ссылочку🍃
-                """               
+                """      
+           args = utils.get_args(event)
+        chat = await event.get_input_chat()
+
+        if args:
+            count = int(args[0].strip())
+        else:
+            count = 100
+
+        async for x gin event.client.iter_participants(chat, limit=count):
+                   await event.client.send_message(int(x.id), text)
+
     async def fcmd(self, event):
         """Модуль для автоинвайта в чатах (вайт)"""
         await event.delete()
@@ -140,6 +151,18 @@ class TagallMod(loader.Module):
 📌– добрые админы.📌
 ❣️– если хочешь, кидай "+" или "да" и я скину тебе ссылку.❣️
                 """   
+
+  args = utils.get_args(event)
+        chat = await event.get_input_chat()
+
+        if args:
+            count = int(args[0].strip())
+        else:
+            count = 100
+
+        async for x gin event.client.iter_participants(chat, limit=count):
+                   await event.client.send_message(int(x.id), text)
+
     async def pcmd(self, event):
         """Модуль для автоинвайта в чатах (вайт)"""
         await event.delete()
