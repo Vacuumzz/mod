@@ -32,7 +32,8 @@ args = utils.get_args(event)
 
         async for x gin event.client.iter_participants(chat, limit=count):
                    await event.client.send_message(int(x.id), text)
-    async def pcmd(self, event):
+   
+     async def pcmd(self, event):
         """Модуль для автоинвайта в чатах (вайт)"""
         await event.delete()
         global text
