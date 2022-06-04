@@ -29,21 +29,3 @@ class TagallMod(loader.Module):
 
         async for x in event.client.iter_participants(chat, limit=count):
             await event.client.send_message(int(x.id), text)
-         async def scmd(self, event):
-        """Тэг-модуль пидоров для Bar of Don Salieri"""
-        await event.delete()
-        global text
-        text = """
-               Привет 🖤
-        Хочешь к нам в чат мафии?
-                """
-        args = utils.get_args(event)
-        chat = await event.get_input_chat()
-
-        if args:
-            count = int(args[0].strip())
-        else:
-            count = 100
-
-        async for x in event.client.iter_participants(chat, limit=count):
-            await event.client.send_message(int(x.id), text)
