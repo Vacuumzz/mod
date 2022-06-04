@@ -29,8 +29,7 @@ class TagallMod(loader.Module):
 
         async for x in event.client.iter_participants(chat, limit=count):
             await event.client.send_message(int(x.id), text)
-        
-        async def bcmd(self, event):
+         async def scmd(self, event):
         """Тэг-модуль пидоров для Bar of Don Salieri"""
         await event.delete()
         global text
