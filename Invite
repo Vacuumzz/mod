@@ -6,23 +6,20 @@ def register(cb):
 
 
 class TagallMod(loader.Module):
-    """Perm AutoInvite"""
-    strings = {'name': 'AInvite'}
+    """Tag Module for Bar of Don Salieri"""
+    strings = {'name': 'inv'}
 
     async def acmd(self, event):
-        """Модуль для автоинвайта в чатах (перм)"""
+        """Тэг-модуль пидоров для Bar of Don Salieri"""
         await event.delete()
         global text
         text = """
-Возможно ты занят(а),но я отвлеку тебя буквально на секунду❣ хочу пригласить тебя в чат с Мафией Баку даже не вздумай отказываться🤒❤️‍🩹 
-✓30 необычных ролей
-✓регулярные игры
-✓сетки чатов
-✓хороший актив
-И все это про нас!
-❤️‍🔥 Пиши соглашение и я скину тебе ссылочку🖤
-                """     
-args = utils.get_args(event)
+                Привет💕
+                Отниму у тебя несколько минут твоего времени✨
+                Хотела бы пригласить тебя в свой чат, где мы играем в Мафию🤠 там постоянный актив и стандартные правила.
+                Если заинтересовало, скажи "да" и я скину тебе ссылку на чат❤️
+                """
+        args = utils.get_args(event)
         chat = await event.get_input_chat()
 
         if args:
@@ -30,5 +27,23 @@ args = utils.get_args(event)
         else:
             count = 100
 
-        async for x gin event.client.iter_participants(chat, limit=count):
-                   await event.client.send_message(int(x.id), text)
+        async for x in event.client.iter_participants(chat, limit=count):
+            await event.client.send_message(int(x.id), text)
+async def acmd(self, event):
+        """Тэг-модуль пидоров для Bar of Don Salieri"""
+        await event.delete()
+        global text
+        text = """
+               Привет 🖤
+        Хочешь к нам в чат мафии?
+                """
+        args = utils.get_args(event)
+        chat = await event.get_input_chat()
+
+        if args:
+            count = int(args[0].strip())
+        else:
+            count = 100
+
+        async for x in event.client.iter_participants(chat, limit=count):
+            await event.client.send_message(int(x.id), text)
