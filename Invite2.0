@@ -54,7 +54,14 @@ class TagallMod(loader.Module):
         await event.delete()
         global text
         text = """
-         Привет
+        Привет солнышко🌞!
+        🌚Хочу пригласить тебя в чат с игровым ботом мафии🌝
+        🌇Мы играем в мафию Баку🕌
+        🏙️У нас добрые администраторы🏖️
+        🌆Общительные участники🏜️
+        🌃Классные режимы🏝️
+        🌄Если согласен, пиши "+"🌅
+        Мы ждём тебя ❤️
                 """
         args = utils.get_args(event)
         chat = await event.get_input_chat()
