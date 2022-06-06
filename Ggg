@@ -6,8 +6,8 @@ def register(cb):
 
 
 class TagallMod(loader.Module):
-    """Модуль дл автоинвайта"""
-    strings = {'name': 'inv'}
+    """Модуль для автоинвайта"""
+    strings = {'name': 'MultiInvite'}
 
     async def acmd(self, event):
         """Инвайт 1 (перм)"""
@@ -38,6 +38,30 @@ class TagallMod(loader.Module):
         text = """
                 Приветик🖤
 Давай сыграем в мафию в классном чатике?
+                """
+        args = utils.get_args(event)
+        chat = await event.get_input_chat()
+        if args:
+            count = int(args[0].strip())
+        else:
+            count = 100
+
+        async for x in event.client.iter_participants(chat, limit=count):
+            await event.client.send_message(int(x.id), text)
+
+     async def gcmd(self, event):
+        """Инвайт 3 (перм)"""
+        await event.delete()
+        global text
+        text = """
+                Привет солнышко🌞!
+        🌚Хочу пригласить тебя в чат с игровым ботом мафии🌝
+        🌇Мы играем в мафию Баку🕌
+        🏙️У нас добрые администраторы🏖️
+        🌆Общительные участники🏜️
+        🌃Классные режимы🏝️
+        🌄Если согласен, пиши "+"🌅
+        Мы ждём тебя ❤️
                 """
         args = utils.get_args(event)
         chat = await event.get_input_chat()
