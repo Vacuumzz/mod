@@ -9,7 +9,7 @@ class TagallMod(loader.Module):
     """Модуль для автоинвайта"""
     strings = {'name': 'MultiInvite'}
 
-    async def acmd(self, event):
+    async def 1cmd(self, event):
         """Инвайт 1 (перм)"""
         await event.delete()
         global text
@@ -31,7 +31,7 @@ class TagallMod(loader.Module):
         async for x in event.client.iter_participants(chat, limit=count):
             await event.client.send_message(int(x.id), text)
 
-    async def bcmd(self, event):
+    async def 2cmd(self, event):
         """Инвайт 2 (перм)"""
         await event.delete()
         global text
@@ -48,29 +48,3 @@ class TagallMod(loader.Module):
 
         async for x in event.client.iter_participants(chat, limit=count):
             await event.client.send_message(int(x.id), text)
-
-    async def 3cmd(self, event):
-        """Инвайт 3 (перм)"""
-        await event.delete()
-        global text
-        text = """
-        Привет солнышко🌞!
-        🌚Хочу пригласить тебя в чат с игровым ботом мафии🌝
-        • У нас добрые администраторы🏖️
-        • Общительные участники🏜️
-        • Классные режимы🏝️
-        • Если согласен, пиши "+"
-        Мы ждём тебя 🖤
-                """
-        args = utils.get_args(event)
-        chat = await event.get_input_chat()
-        if args:
-            count = int(args[0].strip())
-        else:
-            count = 100
-
-        async for x in event.client.iter_participants(chat, limit=count):
-            await event.client.send_message(int(x.id), text)
-         
-        
-        
