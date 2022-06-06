@@ -6,7 +6,7 @@ def register(cb):
 
 
 class TagallMod(loader.Module):
-    """Tag Module for Bar of Don Salieri"""
+    """Модуль дл автоинвайта"""
     strings = {'name': 'inv'}
 
     async def acmd(self, event):
