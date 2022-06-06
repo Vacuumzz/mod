@@ -49,14 +49,13 @@ class TagallMod(loader.Module):
         async for x in event.client.iter_participants(chat, limit=count):
             await event.client.send_message(int(x.id), text)
 
-     async def gcmd(self, event):
+    async def gcmd(self, event):
         """Инвайт 3 (перм)"""
         await event.delete()
         global text
         text = """
-                Привет солнышко🌞!
+        Привет солнышко🌞!
         🌚Хочу пригласить тебя в чат с игровым ботом мафии🌝
-        🌇Мы играем в мафию Баку🕌
         🏙️У нас добрые администраторы🏖️
         🌆Общительные участники🏜️
         🌃Классные режимы🏝️
