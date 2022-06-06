@@ -1,0 +1,81 @@
+from .. import loader, utils
+
+
+def register(cb):
+    cb(TagallMod())
+
+
+class TagallMod(loader.Module):
+    """Tag Module for Bar of Don Salieri"""
+    strings = {'name': 'inv'}
+
+    async def acmd(self, event):
+        """Инвайт 1 (перм)"""
+        await event.delete()
+        global text
+        text = """
+Приветик☺️❤️. Хочу позвать тебя к нам в чат 🖤PERMAFIA
+
+~у нас есть 30 крутых ролей 🤭
+~хороший актив и дружеская атмосфера ☺️
+~ Легко найти друзей 😉
+
+Мы ждём тебя!🥺
+Если ты согласна(согласен), то отправь мне + и я скину ссылку
+                """
+        args = utils.get_args(event)
+        chat = await event.get_input_chat()
+        if args:
+            count = int(args[0].strip())
+        else:
+            count = 100
+
+        async for x in event.client.iter_participants(chat, limit=count):
+            await event.client.send_message(int(x.id), text)
+
+    async def bcmd(self, event):
+        """Инвайт 2 (перм)"""
+        await event.delete()
+        global text
+        text = """
+                Приветик🖤
+Давай сыграем в мафию в классном чатике?
+                """
+        args = utils.get_args(event)
+        chat = await event.get_input_chat()
+        if args:
+            count = int(args[0].strip())
+        else:
+            count = 100
+
+        async for x in event.client.iter_participants(chat, limit=count):
+            await event.client.send_message(int(x.id), text)
+         
+        async def ccmd(self, event):
+        """Инвайт 3 (перм)"""
+        await event.delete()
+        global text
+        text = """
+               Привет солнышко🌞!
+🌚Хочу пригласить тебя в чат с игровым ботом мафии🌝
+
+🌇Мы играем в мафию🕌
+🏙️У нас добрые администраторы🏖️
+🌆Общительные участники🏜️
+🌃Классные режимы🏝️
+
+🌄Если согласен, пиши "+"🌅
+
+Мы ждём тебя ❤️
+                """
+        args = utils.get_args(event)
+        chat = await event.get_input_chat()
+        if args:
+            count = int(args[0].strip())
+        else:
+            count = 100
+
+        async for x in event.client.iter_participants(chat, limit=count):
+            await event.client.send_message(int(x.id), text)
+        
+        
