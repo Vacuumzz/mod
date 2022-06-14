@@ -41,7 +41,7 @@ class NewsLetterMod(loader.Module):
             ),
         )
 
-    async def fbancmd(self, message: Message):
+    async def bancmd(self, message: Message):
         if self.get("warn") == "no":
             await self.inline.form(
                 message=message,
