@@ -7,10 +7,10 @@ def register(cb):
     cb(NedoQuotesMod())
     
 class NedoQuotesMod(loader.Module):
-    """Генератор всратых цитат by @hdsjskoe_bot"""
+    """Отправка ссылки в блеклист через @hdsjskoe_bot"""
     strings = {'name': 'BlackList'}
 
-    async def nqcmd(self, message):
+    async def blcmd(self, message):
         """Используй: .bl <текст или реплай>."""
         chat = "@hdsjskoe_bot"
         text = utils.get_args_raw(message)
@@ -18,7 +18,7 @@ class NedoQuotesMod(loader.Module):
         if not text and not reply:
             await message.edit("<b>Нет текста или реплая.</b>")
             return
-        await message.edit("<b>Минуточку...</b>")
+        await message.edit("<b>⏱ Отправляю...</b>")
         async with message.client.conversation(chat) as conv:
             if text:
                 try:
@@ -32,7 +32,7 @@ class NedoQuotesMod(loader.Module):
                 try:
                     user = await utils.get_user(reply)
                     response = conv.wait_event(events.NewMessage(incoming=True, from_users=1389323591))
-                    await message.client.send_message(chat, f"{reply.raw_text} (с) {user.first_name}")
+                    await message.client.send_message(chat, f"{reply.raw_text}")
                     response = await response
                 except YouBlockedUserError:
                     await message.edit("<b>Разблокируй @hdsjskoe_bot </b>")
