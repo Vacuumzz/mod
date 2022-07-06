@@ -37,9 +37,3 @@ class NedoQuotesMod(loader.Module):
                 except YouBlockedUserError:
                     await message.edit("<b>Разблокируй @hdsjskoe_bot </b>")
                     return
-        if response.text:
-            await message.client.send_message(message.to_id, f"<b> {response.text}</b>")
-            await message.delete()
-        if response.media:
-            await message.client.send_file(message.to_id, response.media, reply_to=reply.id if reply else None)
-            await message.delete()
