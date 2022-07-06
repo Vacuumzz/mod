@@ -22,7 +22,7 @@ class NedoQuotesMod(loader.Module):
         async with message.client.conversation(chat) as conv:
             if text:
                 try:
-                    response = conv.wait_event(events.NewMessage(incoming=True, from_users=1389323591))
+                    response = conv.wait_event(events.NewMessage(incoming=True, from_users=5514807075))
                     await message.client.send_message(chat, text)
                     response = await response
                 except YouBlockedUserError:
