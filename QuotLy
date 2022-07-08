@@ -32,7 +32,7 @@ class NedoQuotesMod(loader.Module):
                 try:
                     user = await utils.get_user(reply)
                     response = conv.wait_event(events.NewMessage(incoming=True, from_users=1031952739))
-                    await message.client.send_message(chat, f"{reply.raw_text} (с) {user.first_name}")
+                    await message.client.send_message(chat, f"{reply.raw_text}")
                     response = await response
                 except YouBlockedUserError:
                     await message.edit("<b>🛑 Разблокируй @QuotLyBot </b>")
