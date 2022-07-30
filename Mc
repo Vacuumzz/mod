@@ -29,7 +29,7 @@ class MuteChatMod(loader.Module):
                 await message.client(br(message.chat_id, cb(until_date=None, send_messages=None))) 
                 mc.remove(chatid) 
                 self.db.set("MuteChat", "mc", mc) 
-                return await message.edit("<b> Чат открыт ✅</b>") 
+                return await message.edit("<b>Чат открыт ✅</b>") 
             else: 
                 await message.client(br(message.chat_id, cb(until_date=0, send_messages=True))) 
                 mc.append(chatid) 
