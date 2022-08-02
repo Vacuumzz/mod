@@ -80,6 +80,3 @@ class FbanMod(loader.Module):
     async def inline__callAnswer(self, call: InlineCall, value: str):
         self.set("warn", value)
         await call.delete()
-
-   async def idcmd(self, message):
-		await message.edit(f'<b>Айди этого чата: <code>{message.chat_id}</code/></b>')
