@@ -2,13 +2,10 @@ from .. import loader, utils
 from telethon.tl.types import Message
 from ..inline.types import InlineCall
 
-# meta developer: @shadow_modules, @hikarimods
-
-
 @loader.tds
-class NewsLetterMod(loader.Module):
+class FbanMod(loader.Module):
     strings = {
-        "name": "NewsLetter",
+        "name": "Fban",
         "succnews": "<b>✅ Newsletter successfully sent</b>\n<b>👁‍🗨 Chats that were sent:</b>\n{}",
         "nochat": "<b>No chat to send</b>",
         "warnform": "<b>⚠️ Attention!</b>\n<b>😰 When sending a newsletter to a lot of chats, there may be a flood</b>\n<b>✅ If you agree that you can get a flood, click on the button below</b>",
