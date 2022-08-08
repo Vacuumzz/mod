@@ -6,7 +6,7 @@ from ..inline.types import InlineCall
 class FbanMod(loader.Module):
     strings = {
         "name": "Fban",
-        "succnews": "<b>✅Succes!</b>\n<b>👁‍🗨 Chats that were sent:</b>\n{}",
+        "succnews": "<b>✅ Succes!</b>\n<b>👁‍🗨 Chats that were sent:</b>\n{}",
         "nochat": "<b>No chat to send</b>",
         "warnform": "<b>⚠️ Attention!</b>\n<b>😰 When sending a newsletter to a lot of chats, there may be a flood</b>\n<b>✅ If you agree that you can get a flood, click on the button below</b>",
         "noargs": "<b>😥 There are no messages to send</b>",
