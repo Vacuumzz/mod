@@ -1,38 +1,62 @@
-from .. import loader, utils 
-from telethon.tl.types import ChatBannedRights as cb 
-from telethon.tl.functions.messages import EditChatDefaultBannedRightsRequest as br 
- 
- 
-@loader.tds 
-class MuteChatMod(loader.Module): 
-    """Мут чата.""" 
-    strings = {'name': 'MuteChat'} 
-     
-    async def client_ready(self, client, db): 
-        self.db = db 
-         
-    async def mccmd(self, message): 
-        """Включить/выключить мут чата.""" 
-        if utils.get_args_raw(message) == "clearall": 
-            self.db.set("MuteChat", "mc", []) 
-            return await message.edit("Отключено во всех чатах.") 
-        if not message.is_private: 
-            chat = await message.get_chat() 
-            if not chat.admin_rights and not chat.creator: 
-                return await message.edit("сэр,вы тут не админ.") 
-            else: 
-                if chat.admin_rights.ban_users == False: 
-                    return await message.edit("У вас недостаточно прав.") 
-            mc = self.db.get("MuteChat", "mc", []) 
-            chatid = str(message.chat_id) 
-            if chatid in mc: 
-                await message.client(br(message.chat_id, cb(until_date=None, send_messages=None))) 
-                mc.remove(chatid) 
-                self.db.set("MuteChat", "mc", mc) 
-                return await message.edit("<b>Чат открыт ✅</b>") 
-            else: 
-                await message.client(br(message.chat_id, cb(until_date=0, send_messages=True))) 
-                mc.append(chatid) 
-                self.db.set("MuteChat", "mc", mc) 
-                await message.edit("<b>Чат закрыт ❌</b>") 
-        else: return await message.edit("Это не чат!")
+#             █ █ ▀ █▄▀ ▄▀█ █▀█ ▀
+#             █▀█ █ █ █ █▀█ █▀▄ █
+#              © Copyright 2022
+#           https://t.me/hikariatama
+#
+# 🔒 Licensed under the GNU AGPLv3
+# 🌐 https://www.gnu.org/licenses/agpl-3.0.html
+
+# scope: hikka_min 1.3.0
+
+from .. import loader, utils
+from telethon.tl.types import ChatBannedRights
+from telethon.tl.functions.messages import EditChatDefaultBannedRightsRequest
+
+
+@loader.tds
+class MuteChatMod(loader.Module):
+    """Мут чата."""
+
+    strings = {"name": "MuteChat"}
+
+    async def mccmd(self, message):
+        """Включить/выключить мут чата."""
+        if utils.get_args_raw(message) == "clearall":
+            self.set("mc", [])
+            await utils.answer(message, "✅ <b>Отключено во всех чатах!</b>")
+            return
+
+        if message.is_private:
+            await utils.answer(message, "🚫 <b>Это не чат!</b>")
+            return
+
+        chat = await message.get_chat()
+        if not chat.admin_rights and not chat.creator:
+            await utils.answer(message, "🚫 <b>Нет прав администратора!</b>")
+            return
+
+        if chat.admin_rights.ban_users == False:
+            await utils.answer(message, "🚫 <b>Недостаточно прав!</b>")
+            return
+
+        mc = self.get("mc", [])
+        chatid = utils.get_chat_id(message)
+        if chatid in mc:
+            await self._client(
+                EditChatDefaultBannedRightsRequest(
+                    message.peer_id,
+                    ChatBannedRights(until_date=None, send_messages=None),
+                )
+            )
+            mc.remove(chatid)
+            self.set("mc", mc)
+            await utils.answer(message, "🔈 <b>Чат открыт !</b>")
+        else:
+            await self._client(
+                EditChatDefaultBannedRightsRequest(
+                    message.peer_id, ChatBannedRights(until_date=0, send_messages=True)
+                )
+            )
+            mc.append(chatid)
+            self.set("mc", mc)
+            await utils.answer(message, "🔇 <b>Чат закрыт !</b>")
