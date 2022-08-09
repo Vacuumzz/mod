@@ -50,7 +50,7 @@ class MuteChatMod(loader.Module):
             )
             mc.remove(chatid)
             self.set("mc", mc)
-            await utils.answer(message, "🔈 <b>Чат открыт !</b>")
+            await utils.answer(message, "🔈 <b>Чат открыт!</b>")
         else:
             await self._client(
                 EditChatDefaultBannedRightsRequest(
@@ -59,4 +59,4 @@ class MuteChatMod(loader.Module):
             )
             mc.append(chatid)
             self.set("mc", mc)
-            await utils.answer(message, "🔇 <b>Чат закрыт !</b>")
+            await utils.answer(message, "🔇 <b>Чат закрыт!</b>")
