@@ -98,7 +98,7 @@ UNMUTE_RIGHTS = ChatBannedRights(
 
 
 class RandomUserMod(loader.Module):
-    "choose a random user in chat\nAutors: @AstroModules & @smeowcodes"
+    "Рандом юзер из чата"
 
     emoji_list = list(
         grapheme.graphemes(
