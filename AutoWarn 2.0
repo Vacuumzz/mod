@@ -49,8 +49,7 @@ class WelcomeMod(loader.Module):
                     # if uid in admin_ids:
                     #     return
                     # else:
-                    await message.respond(f"!warn {str(uid)} 1w афк, если есть уважительная причина, напиши о ней -> @helpperm_bot и мы снимем варн. 
-")
+                    await message.respond(f"!warn {str(uid)} 1w афк, если есть уважительная причина, напиши о ней -> @helpperm_bot и мы снимем варн.")
 
         if ('гнетущей' in message.raw_text.split()) or ('убежал' in message.raw_text.split()):
             msgs = []
