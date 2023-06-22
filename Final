@@ -34,5 +34,5 @@ class GameStatusModule(loader.Module):
 
         if players_message:
             response_message = f"Финалисты:\n{players_message}"
-            await event.client.send_message(chat_id, response_message)
+            await event.respond(response_message)
 
