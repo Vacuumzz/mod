@@ -1,0 +1,61 @@
+from telethon import events
+from telethon.tl.types import ChannelParticipantsAdmins
+
+from .. import loader, utils
+
+
+class FinalistsMod(loader.Module):
+    """Модуль для составления списка финалистов в игре "Мафия"."""
+
+    def __init__(self):
+        self.is_auto_enabled = False  # Флаг автоматической отправки списка финалистов
+        self.finalists_list = None  # Переменная для хранения списка финалистов
+
+    async def find_finalists(self, event):
+        if 'Игра окончена!' in event.raw_text:
+            async for message in event.client.iter_messages(event.input_chat, limit=10, reverse=True):
+                if message.out:
+                    continue
+                if 'Победители:' in message.raw_text:
+                    return message.raw_text.strip()
+        return None
+
+    @loader.unrestricted
+    @loader.ratelimit
+    async def finalistscmd(self, message):
+        """
+        Команда для включения/выключения автоматической отправки списка финалистов.
+        Используйте ".finalists on" для включения и ".finalists off" для выключения.
+        """
+        args = utils.get_args(message)
+        if args and args[0].lower() == 'on':
+            self.is_auto_enabled = True
+            await message.edit('Автоматическая отправка списка финалистов включена.')
+        elif args and args[0].lower() == 'off':
+            self.is_auto_enabled = False
+            await message.edit('Автоматическая отправка списка финалистов выключена.')
+        else:
+            await message.edit('Некорректный аргумент. Используйте "on" или "off".')
+
+    @events.register(events.NewMessage)
+    async def handle_message(self, event):
+        if self.is_auto_enabled:
+            if '🌝 Утро:' in event.raw_text or '🌙 Наступает ночь ❄️' in event.raw_text:
+                async for message in event.client.iter_messages(event.input_chat, limit=5, reverse=True):
+                    if message.out:
+                        continue
+                    if 'Живые игроки:' in message.raw_text:
+                        players_list = message.raw_text.split('Живые игроки:', 1)[1].strip()
+                        if 'Всего:' in players_list:
+                            if int(players_list.split('Всего:')[1].split('\n')[0].strip()) >= 5:
+                                self.finalists_list = players_list
+                                break
+
+            elif 'Игра окончена!' in event.raw_text and self.finalists_list:
+                winners_message = await self.find_finalists(event)
+                if winners_message:
+                    self.finalists_list += '\n\n' + winners_message
+                    chat = await event.get_chat()
+                    admins = await event.client.get_participants(chat, filter=ChannelParticipantsAdmins)
+                    for admin in admins:
+                        await event.client.send_message(admin, f'Финалисты:\n{self.finalists_list}')
