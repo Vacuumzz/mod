@@ -1,0 +1,31 @@
+from telethon import events
+from telethon.tl import types
+
+from .. import loader, utils
+
+
+class NightGameModule(loader.Module):
+    """Модуль для реагирования на сообщения в игре"""
+
+    def __init__(self):
+        self.name = "Night Game Module"
+
+    async def client_ready(self, client, db):
+        self.db = db
+
+    @loader.unrestricted
+    @events.register(events.NewMessage(incoming=True, pattern=r"Игра окончена!"))
+    async def game_over_handler(self, event):
+        chat_id = event.chat_id
+        messages = []
+        async for message in event.client.iter_messages(chat_id, reverse=True):
+            if "Наступает ночь" in message.message:
+                break
+            messages.append(message)
+        messages.reverse()
+
+        for message in messages:
+            if "Живые игроки:" in message.message:
+                players_message = message.message
+                await event.reply(players_message)
+                break
