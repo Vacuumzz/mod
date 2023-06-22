@@ -1,14 +1,13 @@
 from telethon import events
-from telethon.tl import types
 
-from .. import loader, utils
+from .. import loader
 
 
-class NightGameModule(loader.Module):
-    """Модуль для реагирования на сообщения в игре"""
+class GameStatusModule(loader.Module):
+    """Модуль для реагирования на статус игры"""
 
     def __init__(self):
-        self.name = "Night Game Module"
+        self.name = "Game Status Module"
 
     async def client_ready(self, client, db):
         self.db = db
