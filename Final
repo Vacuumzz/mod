@@ -1,0 +1,38 @@
+from telethon import events
+
+from .. import loader
+
+
+class GameStatusModule(loader.Module):
+    """Модуль для реагирования на статус игры"""
+
+    def __init__(self):
+        self.name = "Game Status Module"
+
+    async def client_ready(self, client, db):
+        self.db = db
+
+    @loader.unrestricted
+    @events.register(events.NewMessage(incoming=True, pattern=r"Игра окончена!"))
+    async def game_over_handler(self, event):
+        chat_id = event.chat_id
+        messages = []
+        async for message in event.client.iter_messages(chat_id, reverse=True):
+            messages.append(message)
+            if "Наступает ночь" in message.message:
+                break
+        messages.reverse()
+
+        found_players_message = False
+        players_message = ""
+        for message in messages:
+            if found_players_message:
+                players_message = message.message
+                break
+            elif "Живые игроки:" in message.message:
+                found_players_message = True
+
+        if players_message:
+            response_message = f"Финалисты:\n{players_message}"
+            await event.client.send_message(chat_id, response_message)
+
