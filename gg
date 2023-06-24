@@ -1,48 +1,23 @@
 import asyncio
-from telethon import events
+from .. import loader, utils
 
-ban_in_progress = False  # Флаг, указывающий на текущий статус бана
+def register(cb):
+    cb(BanAllMod())
 
-@bot.on(events.NewMessage(pattern=r'^\.startban$', outgoing=True))
-async def start_ban(event):
-    global ban_in_progress
-    
-    if ban_in_progress:
-        await event.respond("Бан уже выполняется.")
-        return
-    
-    chat = await event.get_chat()
-    if chat.admin_rights or chat.creator:
-        ban_in_progress = True
-        async for user in event.client.iter_participants(chat):
-            if not ban_in_progress:
-                break
-            if user.bot:
-                continue  # Пропускаем ботов
-            await event.respond(f".ban {user.id}")
-            await asyncio.sleep(1)
-        
-        ban_in_progress = False
-        await event.respond("Бан всех пользователей завершен.")
-    else:
-        await event.respond("У вас нет прав для выполнения этой команды.")
+class BanAllMod(loader.Module):
+    """Модуль для бана всех участников в чате"""
+    strings = {"name": "BanAll"}
 
-@bot.on(events.NewMessage(pattern=r'^\.stopban$', outgoing=True))
-async def stop_ban(event):
-    global ban_in_progress
-    ban_in_progress = False
-    await event.respond("Бан отменен.")
+    async def bamcmd(self, message):
+        """Запустить процесс бана всех участников"""
+        chat = await message.get_input_chat()
+        participants = await message.client.get_participants(chat)
+        delay = 1  # Задержка между банами (в секундах)
 
-@bot.on(events.NewMessage(pattern=r'^\.ban (.+)', outgoing=True))
-async def ban_user(event):
-    chat = await event.get_chat()
-    message = event.message
-    if chat.admin_rights or chat.creator:
-        user_id = message.pattern_match.group(1)
-        try:
-            await event.client.edit_permissions(chat, int(user_id), view_messages=False)
-            await event.respond(f"Пользователь {user_id} забанен.")
-        except Exception as e:
-            await event.respond(f"Не удалось забанить пользователя {user_id}. Ошибка: {str(e)}")
-    else:
-        await event.respond("У вас нет прав для выполнения этой команды.")
+        for participant in participants:
+            if participant.id not in [150, 64]:  # Исключаем некоторых пользователей по их ID (по желанию)
+                await message.client.send_message(chat, f".ban {participant.id}")
+                await asyncio.sleep(delay)
+
+        await message.delete()
+
