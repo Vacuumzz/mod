@@ -23,6 +23,20 @@ class AutoModule(loader.Module):
 
         await message.edit("<b>Auto-reply text set for this channel.</b>")
 
+    async def automecommand(self, message):
+        """Set auto-message text for the current channel."""
+        args = utils.get_args_raw(message)
+        chat_id = str(message.chat_id)
+
+        if not args:
+            return await message.edit("<b>No text provided.</b>")
+
+        settings = self.db.get("AutoSettings", "settings", {})
+        settings[chat_id] = f"{args}\n{{mention}}"
+        self.db.set("AutoSettings", "settings", settings)
+
+        await message.edit("<b>Auto-message text set for this channel.</b>")
+
     async def watcher(self, message):
         try:
             settings = self.db.get("AutoSettings", "settings", {})
@@ -41,6 +55,15 @@ class AutoModule(loader.Module):
                 # Check if the message content matches the auto-reply text
                 if message.text.strip() == auto_text:
                     await message.reply(auto_text)
+
+            if message.client._is_user_authorized() and not message.is_reply:
+                # Check if the message is a new channel post
+                if message.chat_id > 0 and "mention" in auto_text:
+                    # Replace "{mention}" placeholder with the user's mention
+                    user = await message.client.get_entity(message.sender_id)
+                    mention = f"@{user.username}" if user.username else user.first_name
+                    auto_text_with_mention = auto_text.replace("{mention}", mention)
+                    await message.reply(auto_text_with_mention)
 
         except Exception as e:
             print(f"Error in AutoModule watcher: {e}")
