@@ -27,6 +27,9 @@ class AutoCommentMod(loader.Module):
             "channels", [], lambda: self.strings["config_channels"]
         )
 
+    async def client_ready(self, client, db):
+        self.client = client
+
     async def watcher(self, message):
         if not self.config["status"]:
             return
@@ -35,10 +38,11 @@ class AutoCommentMod(loader.Module):
         if chat_id not in self.config["channels"]:
             return
 
-        await self.client.send_message(
-            entity=chat_id, message=self.config["message"], reply_to=message
-        )
-        logger.debug(f"прокомментировал {message.id} в {chat_id}")
+        if isinstance(message, types.Message):
+            await self.client.send_message(
+                entity=chat_id, message=self.config["message"], reply_to=message
+            )
+            logger.debug(f"прокомментировал {message.id} в {chat_id}")
 
     async def commentcmd(self, message):
         """Переключить модуль <вкл/выкл>"""
