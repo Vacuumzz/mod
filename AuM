@@ -1,0 +1,82 @@
+import logging
+
+from telethon import events
+from telethon.tl.types import Channel
+
+from .. import loader, utils
+
+logger = logging.getLogger(__name__)
+
+
+@loader.tds
+class AutoCommentMod(loader.Module):
+    """Автоматически комментирует под выбранными каналами"""
+
+    strings = {
+        "name": "AutoComment",
+        "disabled": "❌ Отключено",
+        "enabled": "✅ Включено",
+        "status_now": "👌 AutoComment сейчас <b>{}</b>!",
+        "config_status": "Хотите комментировать?",
+        "config_channels": "Под какими каналами я должен комментировать? (ID)",
+        "config_message": "Что я должен комментировать?",
+    }
+
+    def __init__(self):
+        self.config = loader.ModuleConfig(
+            "status",
+            True,
+            lambda: self.strings["config_status"],
+            validator=loader.validators.Boolean(),
+        )
+
+        self.config.set("channels", [], lambda: self.strings["config_channels"])
+        self.config.set("message", "Я первый! 😎", lambda: self.strings["config_message"])
+
+    async def watcher(self, event: events.NewMessage.Event):
+        if not self.config["status"]:
+            return
+
+        chat = await event.get_chat()
+        if not isinstance(chat, Channel):
+            return
+
+        chat_id = chat.id
+        if chat_id not in self.config["channels"]:
+            return
+
+        await event.reply(self.config["message"])
+        logger.debug(f"Комментарий оставлен на сообщении {event.id} в {chat_id}")
+
+    async def commentcmd(self, message):
+        """Переключить модуль <вкл/выкл>"""
+
+        self.config["status"] = not self.config["status"]
+        status = self.strings["enabled"] if self.config["status"] else self.strings["disabled"]
+
+        await utils.answer(message, self.strings["status_now"].format(status))
+
+    async def setchannelcmd(self, message):
+        """Установить каналы, под которыми модуль будет комментировать (указывайте ID)"""
+
+        channels = []
+        args = utils.get_args(message)
+        if not args:
+            return await utils.answer(message, "<b>Не указаны ID каналов.</b>")
+        for arg in args:
+            try:
+                channel_id = int(arg)
+                channels.append(channel_id)
+            except ValueError:
+                pass
+        self.config["channels"] = channels
+        await utils.answer(message, "<b>Каналы успешно установлены.</b>")
+
+    async def setmessagecmd(self, message):
+        """Установить текст комментария"""
+
+        text = utils.get_args_raw(message)
+        if not text:
+            return await utils.answer(message, "<b>Не указан текст комментария.</b>")
+        self.config["message"] = text
+        await utils.answer(message, "<b>Текст комментария успешно установлен.</b>")
