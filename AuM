@@ -1,0 +1,46 @@
+from .. import loader, utils
+
+@loader.tds
+class AutoModule(loader.Module):
+    """Auto module"""
+
+    strings = {"name": "Auto"}
+
+    async def client_ready(self, client, db):
+        self.db = db
+
+    async def autocommand(self, message):
+        """Set auto-reply text for the current channel."""
+        args = utils.get_args_raw(message)
+        chat_id = str(message.chat_id)
+
+        if not args:
+            return await message.edit("<b>No text provided.</b>")
+
+        settings = self.db.get("AutoSettings", "settings", {})
+        settings[chat_id] = args
+        self.db.set("AutoSettings", "settings", settings)
+
+        await message.edit("<b>Auto-reply text set for this channel.</b>")
+
+    async def watcher(self, message):
+        try:
+            settings = self.db.get("AutoSettings", "settings", {})
+            chat_id = str(message.chat_id)
+
+            if chat_id not in settings:
+                return
+
+            auto_text = settings[chat_id]
+
+            if message.sender_id == (await message.client.get_me()).id:
+                # Ignore messages sent by the bot itself
+                return
+
+            if message.text and not message.is_reply:
+                # Check if the message content matches the auto-reply text
+                if message.text.strip() == auto_text:
+                    await message.reply(auto_text)
+
+        except Exception as e:
+            print(f"Error in AutoModule watcher: {e}")
